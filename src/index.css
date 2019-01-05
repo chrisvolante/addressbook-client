@@ -1,14 +1,165 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+* {
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+body {
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: #5f6368;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin: 30px;
+}
+
+.header .material-icons {
+  font-size: 45px;
+  padding-bottom: 30px;
+  padding-right: 10px;
+  color: #2962ff;
+}
+
+.header .nav-button {
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.header .nav-button:hover {
+  background-color: #333;
+  cursor: pointer;
+  color: white;
+}
+
+.landing-wrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 2.3rem;
+}
+
+.landing-content {
+  flex: 2;
+  text-align: left;
+  padding-left: 46px;
+}
+
+.landing-content h1 {
+  font-size: 36px;
+  font-weight: 500;
+}
+
+.landing-content p {
+  font-size: 20px;
+}
+
+.landing-form {
+  flex: 1;
+  margin-right: 46px;
+  font-size: 16px;
+  border: 1px solid black;
+  border-radius: 3px;
+  padding: 17px;
+}
+
+.landing-form form {
+  padding: 10px;
+}
+
+.landing-form label {
+  line-height: 37px;
+}
+
+.landing-form input {
+  border-radius: 3px;
+  padding: 10px;
+  width: 100%;
+}
+
+.landing-form button {
+  margin: 15px 0 5px 0;
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  background-color: #37e960;
+  color: white;
+  border-style: none;
+  border-radius: 3px;
+}
+
+.landing-form button:hover {
+  background-color: #21923b;
+}
+
+.login-form-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form {
+  flex: 1;
+  font-size: 16px;
+  border: 1px solid black;
+  border-radius: 3px;
+  padding: 17px;
+  margin: auto;
+}
+
+.login-form form {
+  padding: 10px;
+}
+
+.login-form label {
+  line-height: 37px;
+}
+
+.login-form input {
+  border-radius: 3px;
+  padding: 10px;
+  width: 100%;
+}
+
+.login-form button {
+  margin: 15px 0 5px 0;
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  background-color: #37e960;
+  color: white;
+  border-style: none;
+  border-radius: 3px;
+}
+
+.login-form button:hover {
+  background-color: #21923b;
+}
+
+.contacts-table {
+  margin: 30px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.contacts-column {
+  width: 100%;
+  text-align: left;
+  border-collapse: separate;
+  border-spacing: 2em;
 }

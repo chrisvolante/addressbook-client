@@ -1,48 +1,52 @@
-// Import 3rd Party Dependencies.
 import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
-import { connect } from "react-redux";
+import { Field, reduxForm, focus } from "redux-form";
+import Input from "./Input";
+import { loginUser } from "../actions/auth";
+import { required, nonEmpty } from "../validators";
 
-// Import Actions from local files.
-import { loginUser } from "../actions";
-
-class LoginForm extends Component {
-  handleSubmit(event) {
-    event.preventDefault();
-    const username = event.target.username.value;
-    const password = event.target.password.value;
-
-    this.props.dispatch(loginUser(username, password)).then(() => {
-      this.props.history.push("/dashboard");
-    });
+export class LoginForm extends Component {
+  onSubmit(values) {
+    this.props.dispatch(loginUser(values.username, values.password));
   }
 
   render() {
+    let error;
+    if (this.props.error) {
+      error =
+        <div className="form-error" aria-live="polite">
+          {this.props.error}
+        </div>
+        ;
+    }
     return (
       <div className="login-form-wrapper">
         <div className="login-form">
-          <form onSubmit={e => this.handleSubmit(e)}>
-            <div>
-              <label>Username</label>
-            </div>
+          <form
+            onSubmit={this.props.handleSubmit(values => this.onSubmit(values))}
+          >
+            {error}
+            <label htmlFor="username">Username</label>
             <Field
-              name="username"
+              component={Input}
               type="text"
+              name="username"
               id="username"
-              component="input"
+              validate={[required, nonEmpty]}
             />
-            <div>
-              <label>Password</label>
-            </div>
+            <label htmlFor="password">Password</label>
             <Field
-              name="password"
+              component={Input}
               type="password"
+              name="password"
               id="password"
-              component="input"
+              validate={[required, nonEmpty]}
             />
-            <div>
-              <button>Login</button>
-            </div>
+            <button disabled={this.props.pristine || this.props.submitting}>
+              Login
+            </button>
+            <p>Demo Account Credentials</p>
+            <p>Username: demo</p>
+            <p>Password: password11</p>
           </form>
         </div>
       </div>
@@ -50,12 +54,7 @@ class LoginForm extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { isLoggedIn: state.userReducer.isLoggedIn };
-}
-
-LoginForm = reduxForm({
-  form: "LoginForm"
+export default reduxForm({
+  form: "login",
+  onSubmitFail: (errors, dispatch) => dispatch(focus("login", "username"))
 })(LoginForm);
-
-export default connect(mapStateToProps)(LoginForm);

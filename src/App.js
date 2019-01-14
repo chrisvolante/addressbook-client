@@ -5,36 +5,65 @@ import { withRouter } from "react-router-dom";
 
 // Imports local files and Components.
 import "./App.css";
-import { LOGIN_USER_SUCCESS, LOGOUT_USER_SUCCESS } from "./actions";
 import Header from "./components/Header";
 import Routes from "./Routes";
+import { authRefresh } from "./actions/auth";
 
-class App extends Component {
-  // Checks local storage to see if User is logged in.
+export class App extends Component {
   componentDidMount() {
-    const jwtToken = localStorage.getItem("token");
-
-    if (jwtToken) {
-      this.props.dispatch(LOGIN_USER_SUCCESS(jwtToken));
-      this.props.history.push("/dashboard");
+    if (localStorage.getItem("authToken")) {
+      this.props.dispatch(authRefresh());
+    } else {
+      if (
+        this.props.location.pathname === "/dashboard" ||
+        this.props.location.pathname === "/create"
+      ) {
+        this.props.history.push("/");
+      }
     }
   }
-  // Removes token from local storage and logs the User out.
-  handleLogout() {
-    localStorage.removeItem("token");
-    this.props.dispatch(LOGOUT_USER_SUCCESS());
-    this.props.history.push("/login");
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (!prevProps.loggedIn && this.props.loggedIn) {
+  //     // When we are logged in, refresh the auth token periodically
+  //     this.startPeriodicRefresh();
+  //   } else if (prevProps.loggedIn && !this.props.loggedIn) {
+  //     // Stop refreshing when we log out
+  //     this.stopPeriodicRefresh();
+  //   }
+  // }
+
+  // componentWillUnmount() {
+  //   this.stopPeriodicRefresh();
+  // }
+
+  // startPeriodicRefresh() {
+  //   this.refreshInterval = setInterval(
+  //     () => this.props.dispatch(refreshAuthToken()),
+  //     60 * 60 * 1000 // One hour
+  //   );
+  // }
+
+  // stopPeriodicRefresh() {
+  //   if (!this.refreshInterval) {
+  //     return;
+  //   }
+
+  //   clearInterval(this.refreshInterval);
+  // }
 
   render() {
     return (
       <div className="App">
         <Header />
         <Routes />
-        <button onClick={() => this.handleLogout()}>Logout</button>
       </div>
     );
   }
 }
 
-export default withRouter(connect()(App));
+const mapStateToProps = state => ({
+  hasAuthToken: state.auth.authToken !== null,
+  loggedIn: state.auth.currentUser !== null
+});
+
+export default withRouter(connect(mapStateToProps)(App));

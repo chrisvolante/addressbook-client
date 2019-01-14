@@ -49,6 +49,24 @@ a {
   color: white;
 }
 
+.dashboard-container {
+  display: flex;
+}
+
+.entry-button {
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  margin-left: 46px;
+}
+
+.entry-button:hover {
+  background-color: #333;
+  cursor: pointer;
+  color: white;
+}
+
 .landing-wrapper {
   display: flex;
   align-items: center;
@@ -157,9 +175,35 @@ a {
   padding-right: 16px;
 }
 
-.contacts-column {
+.contacts-columns {
   width: 100%;
   text-align: left;
-  border-collapse: separate;
+  border-collapse: sepsarate;
   border-spacing: 2em;
+}
+
+@media only screen and (max-width: 750px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px;
+  }
+
+  .landing-wrapper {
+    flex-direction: column;
+  }
+
+  .landing-content {
+    text-align: center;
+    padding: 0px 10px 0px 10px;
+  }
+
+  .landing-form {
+    text-align: center;
+    margin: 0px 40px 30px 40px;
+  }
+
+  .hide {
+    display: none;
+  }
 }

@@ -1,48 +1,74 @@
 // Import 3rd Party Dependencies.
-import React from "react";
-import { Field, reduxForm } from "redux-form";
+import React, { Component } from "react";
+import { Field, reduxForm, focus } from "redux-form";
 
 // Import Actions from local files.
-import { registerUser } from "../actions";
+import Input from "./Input";
+import { registerUser } from "../actions/users";
+import { loginUser } from "../actions/auth";
+import { required, nonEmpty, matches, length, isTrimmed } from "../validators";
 
-function handleSubmit(event, props) {
-  event.preventDefault();
-  const email = event.target.email.value;
-  const username = event.target.username.value;
-  const password = event.target.password.value;
+const passwordLength = length({ min: 10, max: 72 });
+const matchesPassword = matches("password");
 
-  props.dispatch(registerUser(email, username, password));
+export class RegisterForm extends Component {
+  onSubmit(values) {
+    const { username, email, password } = values;
+    const user = { username, email, password };
+    return this.props
+      .dispatch(registerUser(user))
+      .then(() => this.props.dispatch(loginUser(username, password)));
+    // .then(() => this.props.history.push("/dashboard"));
+  }
+
+  render() {
+    return (
+      <div className="landing-form">
+        <form
+          onSubmit={this.props.handleSubmit(values => this.onSubmit(values))}
+        >
+          <label htmlFor="username">Username</label>
+          <Field
+            component={Input}
+            type="text"
+            name="username"
+            validate={[required, nonEmpty, isTrimmed]}
+          />
+          <label htmlFor="email">Email</label>
+          <Field
+            component={Input}
+            type="email"
+            name="email"
+            validate={[required, nonEmpty, isTrimmed]}
+          />
+          <label htmlFor="password">Password</label>
+          <Field
+            component={Input}
+            type="password"
+            name="password"
+            validate={[required, passwordLength, isTrimmed]}
+          />
+          <label htmlFor="passwordConfirm">Confirm Password</label>
+          <Field
+            component={Input}
+            type="password"
+            name="passwordConfirm"
+            validate={[required, nonEmpty, matchesPassword]}
+          />
+          <button
+            type="submit"
+            disabled={this.props.pristine || this.props.submitting}
+          >
+            Sign Up
+          </button>
+        </form>
+      </div>
+    );
+  }
 }
 
-const RegisterForm = props => {
-  return (
-    <div className="landing-form">
-      <form onSubmit={(e, props) => handleSubmit(e, props)}>
-        <div>
-          <label>Username</label>
-        </div>
-        <Field name="username" type="text" id="username" component="input" />
-        <div>
-          <label>Email</label>
-        </div>
-        <Field name="email" type="text" id="email" component="input" />
-        <div>
-          <label>Password</label>
-        </div>
-        <Field
-          name="password"
-          type="password"
-          id="password"
-          component="input"
-        />
-        <div>
-          <button>Sign Up</button>
-        </div>
-      </form>
-    </div>
-  );
-};
-
 export default reduxForm({
-  form: "RegisterForm"
+  form: "register",
+  onSubmitFail: (errors, dispatch) =>
+    dispatch(focus("register", Object.keys(errors)[0]))
 })(RegisterForm);

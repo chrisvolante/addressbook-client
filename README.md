@@ -7,10 +7,10 @@ Easily create and delete Contacts in your Address Book.
 Link: https://cryptic-fortress-69642.herokuapp.com/
 
 Screenshots:
-![landing](/screenshots/ab-landing)
-![login](/screenshots/ab-login)
-![dashboard](/screenshots/ab-dashboard)
-![create](/screenshots/ab-create)
+![landing](/screenshots/ab-landing.png)
+![login](/screenshots/ab-login.png)
+![dashboard](/screenshots/ab-dashboard.png)
+![create](/screenshots/ab-create.png)
 
 Technology used:
 * React
